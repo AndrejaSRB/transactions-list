@@ -3,9 +3,11 @@
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
+const DEFAULT_ADDRESS = "0x804Ca1983a06dE0cd04e1Dfe2972d40f4c3B111D";
+
 export const useAddressInput = () => {
-  const [address, setAddress] = useState("");
-  const [isValid, setIsValid] = useState(false);
+  const [address, setAddress] = useState(DEFAULT_ADDRESS);
+  const [isValid, setIsValid] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -18,6 +20,7 @@ export const useAddressInput = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+
     setAddress(value);
 
     if (validateAddress(value)) {

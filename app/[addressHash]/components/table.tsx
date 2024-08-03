@@ -7,11 +7,14 @@ import useSortColumn from "@/hooks/useSortColumn";
 import { columns } from "../config";
 import TableColumn from "../types/TableColumn";
 import SkeletonRow from "./skeletonRow";
+import Empty from "./empty";
 
 // TODO: remove dummy loading state with the real
 const isLoading = false;
 const Table = ({ addressHash }: { addressHash: Hash }) => {
   const { sortedProducts, sortSvg, handleSort } = useSortColumn();
+
+  const isEmpty = sortedProducts?.length === 0;
 
   return (
     <div className="relative flex flex-col w-full h-full overflow-scroll bg-slate-900 shadow-md rounded-xl border border-rose-900/50 mb-5 lg:mb-20">
@@ -38,6 +41,8 @@ const Table = ({ addressHash }: { addressHash: Hash }) => {
             Array.from({ length: 10 }).map((_, index) => (
               <SkeletonRow key={`table-skeleton-${index}`} />
             ))}
+
+          {isEmpty && <Empty />}
 
           {!isLoading &&
             sortedProducts.map((transaction, index) => (
