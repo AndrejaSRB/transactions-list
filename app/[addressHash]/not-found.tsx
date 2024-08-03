@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function NotFoundHashPage() {
+export default function NotFoundAddressHashPage() {
   return (
     <section>
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
@@ -12,8 +12,8 @@ export default function NotFoundHashPage() {
             Something's missing.
           </p>
           <p className="mb-8 text-lg font-light text-white">
-            Sorry, there is no available data for requested hash. You can
-            explore more hashes from the home page.
+            Sorry, there is no available data for requested address. Go back and
+            try with another address.
           </p>
           <Link
             href="/"
