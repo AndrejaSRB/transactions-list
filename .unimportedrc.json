@@ -1,0 +1,23 @@
+{
+  "entry": [
+    "next.config.mjs",
+    "tailwind.config.js",
+    "app/**/*.{ts,tsx}",
+    "lib/**/*.{ts,tsx}",
+    "hooks/**/*.{ts,tsx}",
+    "components/**/*.{ts,tsx}"
+  ],
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "public/**"
+  ],
+  "ignoreUnimported": [
+    "tailwind.config.ts"
+  ],
+  "ignoreUnresolved": [],
+  "ignoreUnused": [
+    "next",
+    "react",
+    "react-dom"
+  ]
+}
