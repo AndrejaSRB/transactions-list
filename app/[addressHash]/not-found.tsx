@@ -9,7 +9,7 @@ export default function NotFoundAddressHashPage() {
             404
           </h1>
           <p className="mb-4 text-3xl tracking-tight font-bold text-rose-600 md:text-4xl">
-            Something's missing.
+            Something&apos;s missing.
           </p>
           <p className="mb-8 text-lg font-light text-white">
             Sorry, there is no available data for requested address. Go back and

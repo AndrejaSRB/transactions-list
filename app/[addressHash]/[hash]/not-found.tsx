@@ -9,12 +9,15 @@ export default function NotFoundHashPage() {
             404
           </h1>
           <p className="mb-4 text-3xl tracking-tight font-bold text-rose-600 md:text-4xl">
-            Something's missing.
+            Something&apos;s missing.
           </p>
           <p className="mb-8 text-lg font-light text-white">
-            Sorry, there is no available data for requested hash. You can
-            explore more hashes from the home page.
+            Sorry, there is no available data for requested hash. <br /> Or this
+            hash does not belong to the address you requested.
+            <br />
+            And whether that address participated in that transaction
           </p>
+
           <Link
             href="/"
             className="p-4 bg-rose-800 hover:bg-rose-900 transition-colors rounded">

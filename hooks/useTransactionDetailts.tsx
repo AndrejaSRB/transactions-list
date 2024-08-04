@@ -4,21 +4,62 @@ import Hash from "@/lib/types/Hash";
 import calculateTransactionFee from "@/lib/utils/calculateTransactionFee";
 import formatTransactionTimestamp from "@/lib/utils/formatTransactionTimestamp";
 import { useBlock, useTransaction, useTransactionReceipt } from "wagmi";
+import useGetChainID from "./useGetChainID";
 
 const useTransactionDetails = (hash: Hash) => {
-  const { data, isLoading: isLoadingTransaction } = useTransaction({
+  const {
+    chainId,
+    isLoading: isLoadingChainId,
+    isFetched: isFetchedChainId,
+  } = useGetChainID(hash);
+
+  const {
+    data,
+    isLoading: isLoadingTransaction,
+    isFetched: isFetchedTransaction,
+  } = useTransaction({
+    chainId,
     hash: hash,
+    query: {
+      enabled: !!chainId && !!hash,
+    },
   });
 
-  const { data: block, isLoading: isLoadingBlock } = useBlock({
+  const {
+    data: block,
+    isLoading: isLoadingBlock,
+    isFetched: isFetchedBlock,
+  } = useBlock({
+    chainId,
     blockNumber: data?.blockNumber,
+    query: {
+      enabled: !!chainId && !!data?.blockNumber && isFetchedTransaction,
+    },
   });
 
-  const { data: receipt, isLoading: isLoadingReceipt } = useTransactionReceipt({
+  const {
+    data: receipt,
+    isLoading: isLoadingReceipt,
+    isFetched: isFetchedReceipt,
+  } = useTransactionReceipt({
+    chainId,
     hash: hash,
+    query: {
+      enabled: !!chainId && !!hash,
+    },
   });
 
-  const isLoading = isLoadingTransaction || isLoadingReceipt || isLoadingBlock;
+  const isLoading =
+    isLoadingTransaction ||
+    isLoadingReceipt ||
+    isLoadingBlock ||
+    isLoadingChainId;
+
+  const isFetched =
+    isFetchedTransaction &&
+    isFetchedReceipt &&
+    isFetchedChainId &&
+    isFetchedBlock;
 
   const transactionFee = calculateTransactionFee(
     receipt?.gasUsed,
@@ -36,7 +77,8 @@ const useTransactionDetails = (hash: Hash) => {
       to: receipt?.to,
     },
     isLoading,
-    chainId: data?.chainId,
+    chainId,
+    isFetched,
   };
 };
 

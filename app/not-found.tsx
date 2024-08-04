@@ -9,10 +9,10 @@ export default function NotFound() {
             404
           </h1>
           <p className="mb-4 text-3xl tracking-tight font-bold text-rose-600 md:text-4xl">
-            Something's missing.
+            Something&apos;s missing.
           </p>
           <p className="mb-8 text-lg font-light text-white">
-            Sorry, the page you're looking for doesn't exist.
+            Sorry, the page you&apos;re looking for doesn&apos;t exist.
           </p>
           <Link
             href="/"

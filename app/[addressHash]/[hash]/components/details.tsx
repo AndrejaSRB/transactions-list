@@ -7,15 +7,24 @@ import useTransactionDetails from "@/hooks/useTransactionDetailts";
 import { notFound } from "next/navigation";
 import formatBN from "@/lib/utils/formatBN";
 import { ETHER_SCAN, POLYGON_SCAN } from "@/lib/constants";
+import { polygon } from "wagmi/chains";
+import isAddressPartOfTransaction from "@/lib/utils/isAddressPartOfTransaction";
 
 const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
-  const { data, isLoading, chainId } = useTransactionDetails(hash);
+  const { data, isLoading, chainId, isFetched } = useTransactionDetails(hash);
 
-  if (!data && !isLoading) {
-    notFound();
+  const isPolygon = chainId === polygon.id;
+
+  // Once when the data is fetched we are checking if data exist or if the address is not part of the transaction, in that case we are pushing user to the not found page
+  if (
+    isFetched &&
+    (data === undefined ||
+      (data?.from &&
+        data?.to &&
+        !isAddressPartOfTransaction(addressHash, data?.from, data?.to)))
+  ) {
+    return notFound();
   }
-
-  const isPolygon = chainId === 137;
 
   return (
     <div>
