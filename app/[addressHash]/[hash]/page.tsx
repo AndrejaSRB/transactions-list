@@ -2,7 +2,6 @@ import ellipsis from "@/lib/utils/ellipsis";
 import { Metadata } from "next";
 import Details from "./components/details";
 import Hash from "@/lib/types/Hash";
-import { notFound } from "next/navigation";
 
 type PageProps = {
   params: { hash: Hash; addressHash: Hash };
@@ -22,11 +21,6 @@ export async function generateMetadata({
 export default function HashDetailsPage({ params }: PageProps) {
   const { hash, addressHash } = params;
 
-  // TODO: redirect to the not found page if the API returns error or data is undefined
-  if (!hash) {
-    return notFound();
-  }
-
   return (
     <div className="p-4 lg:p-16 flex justify-center items-center ">
       <div className="lg:col-start-3 w-full lg:row-end-1 lg:max-w-[620px]">
@@ -45,7 +39,7 @@ export default function HashDetailsPage({ params }: PageProps) {
             </div>
           </div>
 
-          <Details hash={hash} addressHash={addressHash} isLoading={false} />
+          <Details hash={hash} addressHash={addressHash} />
         </div>
       </div>
     </div>

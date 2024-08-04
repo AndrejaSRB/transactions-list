@@ -12,9 +12,9 @@ const Detail = ({
   status?: string;
   isLoading: boolean;
 }) => (
-  <div className="mt-4 flex w-full items-center gap-x-4 px-6">
+  <div className="mt-4 flex flex-col lg:flex-row w-full lg:items-center gap-x-4 px-6">
     <div className="flex items-center min-w-16">
-      <span className="text-gray-500 text-sm">{label}:</span>
+      <span className="text-gray-500 text-sm font-bold">{label}:</span>
     </div>
 
     {/*
@@ -24,9 +24,11 @@ const Detail = ({
     {isLoading ? (
       <Skeleton />
     ) : status ? (
-      <Status status={status} />
+      <div>
+        <Status status={status} />
+      </div>
     ) : (
-      <div className="text-sm leading-6 ">
+      <div className=" text-xs lg:text-sm leading-6 ">
         <p>{value}</p>
       </div>
     )}
