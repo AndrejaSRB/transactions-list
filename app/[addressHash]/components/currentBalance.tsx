@@ -16,9 +16,9 @@ const CurrentBalance = ({ addressHash }: { addressHash: Hash }) => {
       {isLoading ? (
         <Skeleton />
       ) : (
-        <span className="text-sm italic text-white">{`${formatBN(
-          data?.value
-        )} ${data?.symbol}`}</span>
+        <span className="text-sm italic text-white">
+          {data ? `${formatBN(data?.value)} ${data?.symbol}` : 0}
+        </span>
       )}
     </div>
   );
