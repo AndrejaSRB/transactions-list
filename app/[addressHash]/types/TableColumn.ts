@@ -1,6 +1,6 @@
 enum TableColumn {
   HASH = "hash",
-  TIMESTAMP = "timestamp",
+  TIMESTAMP = "timeStamp",
   VALUE = "value",
   DETAILS = "details",
 }

@@ -1,8 +1,6 @@
-import ellipsis from "@/lib/utils/ellipsis";
 import formatBN from "@/lib/utils/formatBN";
 import formatTimestamp from "@/lib/utils/formatTimestamp";
 import Link from "next/link";
-import { DocumentDuplicateIcon } from "@heroicons/react/20/solid";
 import TableCellHash from "./tableCellHash";
 
 const TableRow = ({
