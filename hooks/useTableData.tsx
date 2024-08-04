@@ -4,6 +4,7 @@ import useGetEtheriumTransactions from "./useGetEtheriumTransactions";
 import useGetPolygonTransactions from "./useGetPolygonTransactions";
 import TableColumn from "@/app/[addressHash]/types/TableColumn";
 import { useCallback, useMemo, useState } from "react";
+import { mainnet, polygon } from "wagmi/chains";
 
 const useTableData = (addressHash: Hash | undefined) => {
   const [sortColumn, setSortColumn] = useState<TableColumn | null>(
@@ -26,6 +27,12 @@ const useTableData = (addressHash: Hash | undefined) => {
   } = useGetEtheriumTransactions({
     address: addressHash,
   });
+
+  const presentedChainId = useMemo(() => {
+    if (!etheriumIsEmpty) return mainnet.id;
+    if (!polygonIsEmpty) return polygon.id;
+    return undefined;
+  }, [polygonIsEmpty, etheriumIsEmpty]);
 
   const sortedProducts = useMemo(() => {
     const transactions = [
@@ -81,6 +88,7 @@ const useTableData = (addressHash: Hash | undefined) => {
     sortedProducts,
     handleSort,
     sortSvg,
+    presentedChainId,
   };
 };
 

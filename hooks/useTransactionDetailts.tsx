@@ -25,11 +25,7 @@ const useTransactionDetails = (hash: Hash) => {
     },
   });
 
-  const {
-    data: block,
-    isLoading: isLoadingBlock,
-    isFetched: isFetchedBlock,
-  } = useBlock({
+  const { data: block } = useBlock({
     chainId,
     blockNumber: data?.blockNumber,
     query: {
@@ -50,16 +46,10 @@ const useTransactionDetails = (hash: Hash) => {
   });
 
   const isLoading =
-    isLoadingTransaction ||
-    isLoadingReceipt ||
-    isLoadingBlock ||
-    isLoadingChainId;
+    isLoadingTransaction || isLoadingReceipt || isLoadingChainId;
 
   const isFetched =
-    isFetchedTransaction &&
-    isFetchedReceipt &&
-    isFetchedChainId &&
-    isFetchedBlock;
+    isFetchedTransaction && isFetchedReceipt && isFetchedChainId;
 
   const transactionFee = calculateTransactionFee(
     receipt?.gasUsed,
@@ -68,7 +58,9 @@ const useTransactionDetails = (hash: Hash) => {
 
   return {
     data: data && {
-      timestamp: formatTransactionTimestamp(block?.timestamp),
+      timestamp: block?.timestamp
+        ? formatTransactionTimestamp(block?.timestamp)
+        : "",
       amount: data?.value,
       transactionFee: transactionFee,
       gasPrice: receipt?.effectiveGasPrice,

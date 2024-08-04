@@ -3,10 +3,18 @@ import Skeleton from "@/components/skeleton";
 import Hash from "@/lib/types/Hash";
 import formatBN from "@/lib/utils/formatBN";
 import { useBalance } from "wagmi";
+import useTableData from "@/hooks/useTableData";
 
 const CurrentBalance = ({ addressHash }: { addressHash: Hash }) => {
+  const { presentedChainId, isLoading: isLoadingTableData } =
+    useTableData(addressHash);
+
   const { data, isLoading } = useBalance({
+    chainId: presentedChainId,
     address: addressHash,
+    query: {
+      enabled: !!presentedChainId && !isLoadingTableData,
+    },
   });
 
   return (
