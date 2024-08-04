@@ -3,18 +3,15 @@
 import TableRow from "./tableRow";
 import TableHead from "./tableHead";
 import Hash from "@/lib/types/Hash";
-import useSortColumn from "@/hooks/useSortColumn";
 import { columns } from "../config";
 import TableColumn from "../types/TableColumn";
 import SkeletonRow from "./skeletonRow";
 import Empty from "./empty";
+import useTableData from "@/hooks/useTableData";
 
-// TODO: remove dummy loading state with the real
-const isLoading = false;
 const Table = ({ addressHash }: { addressHash: Hash }) => {
-  const { sortedProducts, sortSvg, handleSort } = useSortColumn();
-
-  const isEmpty = sortedProducts?.length === 0;
+  const { sortedProducts, sortSvg, handleSort, isLoading, isEmpty } =
+    useTableData(addressHash);
 
   return (
     <div className="relative flex flex-col w-full h-full overflow-scroll bg-slate-900 shadow-md rounded-xl border border-rose-900/50 mb-5 lg:mb-20">
@@ -50,7 +47,7 @@ const Table = ({ addressHash }: { addressHash: Hash }) => {
                 key={`${transaction.hash}-${index}`}
                 hash={transaction.hash}
                 amount={transaction.value}
-                timestamp={transaction.timestamp}
+                timestamp={transaction.timestamp || transaction.timeStamp}
                 see_more_url={`${addressHash}/${transaction.hash}`}
               />
             ))}

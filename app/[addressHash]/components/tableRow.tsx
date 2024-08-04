@@ -1,4 +1,5 @@
 import ellipsis from "@/lib/utils/ellipsis";
+import formatBN from "@/lib/utils/formatBN";
 import formatTimestamp from "@/lib/utils/formatTimestamp";
 import Link from "next/link";
 
@@ -10,7 +11,7 @@ const TableRow = ({
 }: {
   hash: string;
   timestamp: number;
-  amount: number;
+  amount: bigint;
   see_more_url: string;
 }) => (
   <tr className="border border-rose-900/20">
@@ -36,7 +37,7 @@ const TableRow = ({
 
     <td className="p-4">
       <p className="block text-sm antialiased font-normal leading-normal">
-        {amount}
+        {formatBN(amount)}
       </p>
     </td>
 

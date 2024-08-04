@@ -2,16 +2,11 @@
 
 import Hash from "@/lib/types/Hash";
 import calculateTransactionFee from "@/lib/utils/calculateTransactionFee";
-import formatBN from "@/lib/utils/formatBN";
 import formatTransactionTimestamp from "@/lib/utils/formatTransactionTimestamp";
 import { useBlock, useTransaction, useTransactionReceipt } from "wagmi";
 
 const useTransactionDetails = (hash: Hash) => {
-  const {
-    data,
-    dataUpdatedAt,
-    isLoading: isLoadingTransaction,
-  } = useTransaction({
+  const { data, isLoading: isLoadingTransaction } = useTransaction({
     hash: hash,
   });
 
@@ -22,8 +17,6 @@ const useTransactionDetails = (hash: Hash) => {
   const { data: receipt, isLoading: isLoadingReceipt } = useTransactionReceipt({
     hash: hash,
   });
-
-  console.log("receipt", receipt);
 
   const isLoading = isLoadingTransaction || isLoadingReceipt || isLoadingBlock;
 

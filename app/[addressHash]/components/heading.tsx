@@ -2,10 +2,7 @@ import Hash from "@/lib/types/Hash";
 import ellipsis from "@/lib/utils/ellipsis";
 import Link from "next/link";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
-import Skeleton from "@/components/skeleton";
-
-// TODO: remove dummy loading state with the real one
-const isLoading = false;
+import CurrentBalance from "./currentBalance";
 
 const Heading = ({ addressHash }: { addressHash: Hash }) => {
   return (
@@ -51,15 +48,7 @@ const Heading = ({ addressHash }: { addressHash: Hash }) => {
           </span>
         </div>
 
-        <div className="mt-4 flex items-center gap-2">
-          <h2 className="text-white/80">Current Balance:</h2>
-
-          {isLoading ? (
-            <Skeleton />
-          ) : (
-            <span className="text-sm italic text-white">0.25647</span>
-          )}
-        </div>
+        <CurrentBalance addressHash={addressHash} />
       </div>
     </div>
   );

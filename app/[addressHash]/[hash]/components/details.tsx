@@ -1,13 +1,12 @@
 "use client";
 import Link from "next/link";
 import Detail from "./detail";
-import { ETHER_SCAN, POLYGON_SCAN } from "@/lib/constants";
 import Hash from "@/lib/types/Hash";
 import Skeleton from "@/components/skeleton";
 import useTransactionDetails from "@/hooks/useTransactionDetailts";
 import { notFound } from "next/navigation";
 import formatBN from "@/lib/utils/formatBN";
-import ellipsis from "@/lib/utils/ellipsis";
+import { ETHER_SCAN, POLYGON_SCAN } from "@/lib/constants";
 
 const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
   const { data, isLoading, chainId } = useTransactionDetails(hash);
