@@ -2,8 +2,7 @@
 
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-
-const DEFAULT_ADDRESS = "0x804Ca1983a06dE0cd04e1Dfe2972d40f4c3B111D";
+import { DEFAULT_ADDRESS } from "@/lib/constants";
 
 export const useAddressInput = () => {
   const [address, setAddress] = useState(DEFAULT_ADDRESS);

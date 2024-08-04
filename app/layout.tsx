@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import TanstackProvider from "@/lib/tanstack";
 import WagmiRuntime from "@/lib/wagmi";
+import ToastProvider from "@/lib/toastProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <WagmiRuntime>
           <TanstackProvider>
-            <div>{children}</div>
+            <ToastProvider>
+              <div>{children}</div>
+            </ToastProvider>
           </TanstackProvider>
         </WagmiRuntime>
       </body>

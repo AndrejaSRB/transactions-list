@@ -9,6 +9,7 @@ import formatBN from "@/lib/utils/formatBN";
 import { ETHER_SCAN, POLYGON_SCAN } from "@/lib/constants";
 import { polygon } from "wagmi/chains";
 import isAddressPartOfTransaction from "@/lib/utils/isAddressPartOfTransaction";
+import ellipsis from "@/lib/utils/ellipsis";
 
 const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
   const { data, isLoading, chainId, isFetched } = useTransactionDetails(hash);
@@ -45,10 +46,32 @@ const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
           isLoading={isLoading}
         />
 
-        <Detail label="From" value={data?.from} isLoading={isLoading} />
+        <div className="block lg:hidden">
+          <Detail
+            label="From"
+            value={ellipsis(data?.from, 16)}
+            isLoading={isLoading}
+          />
+        </div>
+
+        <div className="hidden lg:block">
+          <Detail label="From" value={data?.from} isLoading={isLoading} />
+        </div>
 
         {data?.to && (
-          <Detail label="To" value={data?.to} isLoading={isLoading} />
+          <>
+            <div className="block lg:hidden">
+              <Detail
+                label="To"
+                value={ellipsis(data?.to, 16)}
+                isLoading={isLoading}
+              />
+            </div>
+
+            <div className="hidden lg:block">
+              <Detail label="To" value={data?.to} isLoading={isLoading} />
+            </div>
+          </>
         )}
 
         <Detail label="Status" status={data?.status} isLoading={isLoading} />

@@ -12,10 +12,12 @@
     "@heroicons/react": "^2.1.5",
     "@tanstack/react-query": "^5.51.21",
     "@tanstack/react-query-devtools": "^5.51.21",
+    "copy-to-clipboard": "^3.3.3",
     "date-fns": "2.30.0",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
+    "react-toastify": "^10.0.5",
     "viem": "^2.8.12",
     "wagmi": "^2.5.11",
     "zod": "^3.23.8"

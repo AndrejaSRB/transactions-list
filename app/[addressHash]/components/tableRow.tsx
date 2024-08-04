@@ -2,6 +2,8 @@ import ellipsis from "@/lib/utils/ellipsis";
 import formatBN from "@/lib/utils/formatBN";
 import formatTimestamp from "@/lib/utils/formatTimestamp";
 import Link from "next/link";
+import { DocumentDuplicateIcon } from "@heroicons/react/20/solid";
+import TableCellHash from "./tableCellHash";
 
 const TableRow = ({
   hash,
@@ -15,19 +17,7 @@ const TableRow = ({
   see_more_url: string;
 }) => (
   <tr className="border border-rose-900/20">
-    <td className="p-4">
-      <p className="block text-sm antialiased font-normal leading-normal lg:hidden">
-        {ellipsis(hash)}
-      </p>
-
-      <p className="hidden lg:block xl:hidden text-sm antialiased font-normal leading-normal">
-        {ellipsis(hash, 8)}
-      </p>
-
-      <p className="hidden xl:block m-auto text-left text-sm antialiased font-normal leading-normal">
-        {hash}
-      </p>
-    </td>
+    <TableCellHash hash={hash} />
 
     <td className="p-4">
       <p className="block text-sm antialiased font-normal leading-normal">
