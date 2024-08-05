@@ -1,38 +1,37 @@
-import env from "@/lib/env";
-
+import { chains } from "@/lib/chains/chains";
+import { getApiKey } from "@/lib/env";
 import Hash from "@/lib/types/Hash";
 import { useQuery } from "@tanstack/react-query";
-import { mainnet, polygon } from "wagmi/chains";
 
 const STATIC_PART_URL =
   "api?module=transaction&action=gettxreceiptstatus&txhash";
 
-async function getChainId(txHash: Hash) {
+const getChainId = async (txHash: Hash) => {
   try {
-    const [ethResponse, polygonResponse] = await Promise.all([
-      fetch(
-        `https://api.etherscan.io/${STATIC_PART_URL}=${txHash}&apikey=${env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
-      ).then((res) => res.json()),
-      fetch(
-        `https://api.polygonscan.com/${STATIC_PART_URL}=${txHash}&apikey=${env.NEXT_PUBLIC_POLYGONSCAN_API_KEY}`
-      ).then((res) => res.json()),
-    ]);
+    const results = await Promise.all(
+      chains.map(async (chain) => {
+        const apiKey = getApiKey(chain.name);
+        const response = await fetch(
+          `${chain.url}/${STATIC_PART_URL}=${txHash}&apikey=${apiKey}`
+        ).then((res) => res.json());
 
-    const ethStatus = ethResponse.result?.status;
-    const polygonStatus = polygonResponse.result?.status;
-    return {
-      chainId:
-        ethStatus === "1"
-          ? mainnet.id
-          : polygonStatus === "1"
-          ? polygon.id
-          : undefined,
-    };
+        return {
+          chainId: response.result?.status === "1" ? chain.chainId : undefined,
+        };
+      })
+    );
+
+    // Find the first chainId where the status is "1"
+    const chainId = results.find(
+      (result) => result.chainId !== undefined
+    )?.chainId;
+
+    return { chainId };
   } catch (error) {
     console.error("Error fetching chain ID:", error);
     return { chainId: undefined };
   }
-}
+};
 
 const useGetChainID = (txHash: Hash) => {
   const { data, error, isLoading, isFetched } = useQuery({

@@ -8,11 +8,13 @@ const TableRow = ({
   timestamp,
   amount,
   see_more_url,
+  tokenName,
 }: {
   hash: string;
   timestamp: number;
   amount: bigint;
   see_more_url: string;
+  tokenName: string;
 }) => (
   <tr className="border border-rose-900/20">
     <TableCellHash hash={hash} />
@@ -25,7 +27,7 @@ const TableRow = ({
 
     <td className="p-4">
       <p className="block text-sm antialiased font-normal leading-normal">
-        {formatBN(amount)}
+        {formatBN(amount)} {tokenName}
       </p>
     </td>
 

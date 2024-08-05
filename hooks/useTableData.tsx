@@ -1,46 +1,53 @@
 "use client";
-import Hash from "@/lib/types/Hash";
-import useGetEtheriumTransactions from "./useGetEtheriumTransactions";
-import useGetPolygonTransactions from "./useGetPolygonTransactions";
-import TableColumn from "@/app/[addressHash]/types/TableColumn";
 import { useCallback, useMemo, useState } from "react";
-import { mainnet, polygon } from "wagmi/chains";
+import Hash from "@/lib/types/Hash";
+import TableColumn from "@/app/[addressHash]/types/TableColumn";
+import useGetAllTransactions from "./useGetTransactions";
+import Tab from "@/lib/types/Tab";
 
 const useTableData = (addressHash: Hash | undefined) => {
+  // State for sorting
   const [sortColumn, setSortColumn] = useState<TableColumn | null>(
     TableColumn.TIMESTAMP
   );
-  const [sortOrder, setSortOrder] = useState("desc");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-  const {
-    data: polygonTransactions,
-    isLoading: polygonIsLoading,
-    isEmpty: polygonIsEmpty,
-  } = useGetPolygonTransactions({
+  // State for active tab
+  const [activeTab, setActiveTab] = useState<number>(0);
+
+  // Fetch all transactions
+  const { data, isLoading, isEmpty } = useGetAllTransactions({
     address: addressHash,
   });
 
-  const {
-    data: etheriumTransactions,
-    isLoading: etheriumIsLoading,
-    isEmpty: etheriumIsEmpty,
-  } = useGetEtheriumTransactions({
-    address: addressHash,
-  });
+  // Handle tab switching
+  const toggleTab = useCallback((tabIndex: number) => {
+    setActiveTab(tabIndex);
+  }, []);
 
-  const presentedChainId = useMemo(() => {
-    if (!etheriumIsEmpty) return mainnet.id;
-    if (!polygonIsEmpty) return polygon.id;
-    return undefined;
-  }, [polygonIsEmpty, etheriumIsEmpty]);
+  // Get tabs based on data
+  const tabs: Tab[] = useMemo(() => {
+    if (!data) return [];
 
-  const sortedProducts = useMemo(() => {
-    const transactions = [
-      ...(etheriumTransactions || []),
-      ...(polygonTransactions || []),
-    ];
+    return data
+      .filter((chainData) => chainData.transactions.length > 0)
+      .map((chainData, index) => ({
+        index,
+        name: chainData.name,
+        token: chainData.token,
+      }));
+  }, [data]);
 
-    return transactions.sort((a, b) => {
+  // Get transactions for the active tab
+  const activeTransactions = useMemo(() => {
+    if (!data || !tabs[activeTab]) return [];
+
+    return data[tabs[activeTab].index].transactions;
+  }, [data, tabs, activeTab]);
+
+  // Handle sorting
+  const sortedTransactions = useMemo(() => {
+    return [...activeTransactions].sort((a, b) => {
       if (sortColumn) {
         if (sortOrder === "asc") {
           return a[sortColumn] < b[sortColumn] ? -1 : 1;
@@ -50,8 +57,9 @@ const useTableData = (addressHash: Hash | undefined) => {
       }
       return 0;
     });
-  }, [etheriumTransactions, polygonTransactions, sortColumn, sortOrder]);
+  }, [activeTransactions, sortColumn, sortOrder]);
 
+  // Function to set sorting column and order
   const handleSort = useCallback(
     (column: TableColumn) => {
       if (sortColumn === column) {
@@ -64,6 +72,7 @@ const useTableData = (addressHash: Hash | undefined) => {
     [sortColumn, sortOrder]
   );
 
+  // Helper function for displaying sort icon
   const sortSvg = (column: TableColumn) =>
     sortColumn === column ? (
       <svg
@@ -82,13 +91,21 @@ const useTableData = (addressHash: Hash | undefined) => {
       </svg>
     ) : null;
 
+  // Get the active token name
+  const activeToken = useMemo(() => {
+    return tabs[activeTab]?.token || "";
+  }, [tabs, activeTab]);
+
   return {
-    isLoading: polygonIsLoading || etheriumIsLoading,
-    isEmpty: etheriumIsEmpty && polygonIsEmpty, // Show empty state only if both are empty,
-    sortedProducts,
+    isLoading,
+    isEmpty,
+    sortedTransactions,
     handleSort,
     sortSvg,
-    presentedChainId,
+    activeTab,
+    tabs,
+    toggleTab,
+    activeToken,
   };
 };
 
