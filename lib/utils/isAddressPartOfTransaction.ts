@@ -9,7 +9,7 @@ import Hash from "../types/Hash";
  * @return {boolean} Returns true if the requested address is part of the transaction, false otherwise.
  */
 const isAddressPartOfTransaction = (
-  requestedAddress: Hash,
+  requestedAddress: Hash | string,
   from: Hash,
   to: Hash
 ) => {

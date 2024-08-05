@@ -21,12 +21,8 @@ const TableCellHash = ({ hash }: { hash: string }) => {
         {ellipsis(hash)}
       </p>
 
-      <p className="hidden lg:block xl:hidden text-sm antialiased font-normal leading-normal">
+      <p className="hidden lg:block text-sm antialiased font-normal leading-normal">
         {ellipsis(hash, 8)}
-      </p>
-
-      <p className="hidden xl:block text-left text-sm antialiased font-normal leading-normal">
-        {hash}
       </p>
 
       <DocumentDuplicateIcon

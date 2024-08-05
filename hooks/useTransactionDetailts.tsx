@@ -4,7 +4,7 @@ import Hash from "@/lib/types/Hash";
 import calculateTransactionFee from "@/lib/utils/calculateTransactionFee";
 import formatTransactionTimestamp from "@/lib/utils/formatTransactionTimestamp";
 import { useBlock, useTransaction, useTransactionReceipt } from "wagmi";
-import useGetChainID from "./useGetChainID";
+import useGetChainID from "@/hooks/useGetChainID";
 
 const useTransactionDetails = (hash: Hash) => {
   const {

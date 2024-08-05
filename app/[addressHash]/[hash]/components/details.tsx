@@ -27,6 +27,8 @@ const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
     return notFound();
   }
 
+  console.log("elip", ellipsis("0xAd36FA05C9BD878fb3b7C8032251A609cfe3b4e6"));
+
   return (
     <div>
       <div className="mt-6 flex w-full flex-col gap-x-4 border-t border-rose-900/40 ">
