@@ -48,29 +48,30 @@ const useTransactionDetails = (hash: Hash) => {
   const isLoading =
     isLoadingTransaction || isLoadingReceipt || isLoadingChainId;
 
-  const isFetched =
-    isFetchedTransaction && isFetchedReceipt && isFetchedChainId;
-
   const transactionFee = calculateTransactionFee(
     receipt?.gasUsed,
     receipt?.effectiveGasPrice
   );
 
   return {
-    data: data && {
-      timestamp: block?.timestamp
-        ? formatTransactionTimestamp(block?.timestamp)
-        : "",
-      amount: data?.value,
-      transactionFee: transactionFee,
-      gasPrice: receipt?.effectiveGasPrice,
-      status: receipt?.status,
-      from: receipt?.from,
-      to: receipt?.to,
-    },
+    data:
+      data && receipt
+        ? {
+            timestamp: block?.timestamp
+              ? formatTransactionTimestamp(block?.timestamp)
+              : "",
+            amount: data?.value,
+            transactionFee: transactionFee,
+            gasPrice: receipt?.effectiveGasPrice,
+            status: receipt?.status,
+            from: receipt?.from,
+            to: receipt?.to,
+          }
+        : undefined,
     isLoading,
     chainId,
-    isFetched,
+    isFetchedChainId,
+    isFetched: isFetchedTransaction && isFetchedReceipt && isFetchedChainId,
   };
 };
 

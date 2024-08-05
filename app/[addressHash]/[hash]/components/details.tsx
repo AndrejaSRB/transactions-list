@@ -10,21 +10,31 @@ import { ETHER_SCAN, POLYGON_SCAN } from "@/lib/constants";
 import { polygon } from "wagmi/chains";
 import isAddressPartOfTransaction from "@/lib/utils/isAddressPartOfTransaction";
 import ellipsis from "@/lib/utils/ellipsis";
+import { getTokenName } from "@/lib/utils/getTokenName";
 
 const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
-  const { data, isLoading, chainId, isFetched } = useTransactionDetails(hash);
+  const { data, isLoading, chainId, isFetchedChainId, isFetched } =
+    useTransactionDetails(hash);
 
   const isPolygon = chainId === polygon.id;
 
-  // Once when the data is fetched we are checking if data exist or if the address is not part of the transaction, in that case we are pushing user to the not found page
+  // Check if the user should be redirected to the notFound page:
+  // 1. If the chainId has been fetched but is undefined, indicating the transaction
+  //    doesn't exist on any supported chain.
+  // 2. If all data has been fetched but the transaction details data are undefined,
+  //    meaning no transaction information was found.
+  // 3. If all data has been fetched, the transaction details are present, but the provided
+  //    addressHash is neither the sender (`data.from`) nor the recipient (`data.to`).
+  // If any of these conditions are met, trigger the notFound route.
   if (
-    isFetched &&
-    (data === undefined ||
-      (data?.from &&
-        data?.to &&
-        !isAddressPartOfTransaction(addressHash, data?.from, data?.to)))
+    (isFetchedChainId && !chainId) ||
+    (isFetched && data === undefined) ||
+    (isFetched &&
+      data?.from &&
+      data?.to &&
+      !isAddressPartOfTransaction(addressHash, data.from, data.to))
   ) {
-    return notFound();
+    notFound();
   }
 
   return (
@@ -42,7 +52,9 @@ const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
 
         <Detail
           label="Amount"
-          value={`${formatBN(data?.amount)} ${isPolygon ? "MATIC" : "ETH"}`}
+          value={`${
+            data?.amount ? formatBN(data?.amount) : "N/A"
+          } ${getTokenName(chainId)}`}
           isLoading={isLoading}
         />
 

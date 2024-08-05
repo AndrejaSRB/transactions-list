@@ -21,7 +21,7 @@ const TableHead = ({
       }`}>
       <div className="flex items-center">
         <p className="block text-sm antialiased font-bold text-white leading-none opacity-70">
-          {ucfirst(label.toLowerCase())}
+          {ucfirst(label == TableColumn.VALUE ? "Amount" : label.toLowerCase())}
         </p>
         {hasSorting && sortSvg(label)}
       </div>

@@ -29,7 +29,7 @@ const Detail = ({
       </div>
     ) : (
       <div className="text-xs lg:text-sm leading-6">
-        <p>{value}</p>
+        <p>{value ? value : "N/A"}</p>
       </div>
     )}
   </div>
