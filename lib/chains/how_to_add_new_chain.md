@@ -11,7 +11,7 @@ You have to provide all neccessery information for new chain:
 ```ts
     name: "BNB",
     chainId: 56,
-    url: "https://api.bscscan.com",
+    url: "bscscan.com",
     token: "BNB",
 ```
 

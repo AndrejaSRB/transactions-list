@@ -16,7 +16,7 @@ const fetchAllTransactions = async (address: Hash | undefined) => {
       return { chainId: chain.chainId, transactions: [] };
     }
 
-    const url = `${chain.url}/api?module=account&action=txlist&address=${address}&sort=desc&apikey=${apiKey}`;
+    const url = `https://api.${chain.url}/api?module=account&action=txlist&address=${address}&sort=desc&apikey=${apiKey}`;
 
     try {
       const response = await fetch(url);

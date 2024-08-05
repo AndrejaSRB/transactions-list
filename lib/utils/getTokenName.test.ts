@@ -1,7 +1,7 @@
 import { getTokenName } from "@/lib/utils/getTokenName";
 import { chains } from "@/lib/chains/chains";
 
-describe("getTokenName", () => {
+describe("getTokenName function", () => {
   it("should return the correct token name for a valid chainId", () => {
     const ethChainId = chains.find(
       (chain) => chain.name.toLowerCase() === "ethereum"

@@ -12,7 +12,7 @@ const getChainId = async (txHash: Hash) => {
       chains.map(async (chain) => {
         const apiKey = getApiKey(chain.name);
         const response = await fetch(
-          `${chain.url}/${STATIC_PART_URL}=${txHash}&apikey=${apiKey}`
+          `https://api.${chain.url}/${STATIC_PART_URL}=${txHash}&apikey=${apiKey}`
         ).then((res) => res.json());
 
         return {

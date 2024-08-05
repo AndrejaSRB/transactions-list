@@ -6,11 +6,11 @@ import Skeleton from "@/components/skeleton";
 import useTransactionDetails from "@/hooks/useTransactionDetailts";
 import { notFound } from "next/navigation";
 import formatBN from "@/lib/utils/formatBN";
-import { ETHER_SCAN, POLYGON_SCAN } from "@/lib/constants";
 import { polygon } from "wagmi/chains";
 import isAddressPartOfTransaction from "@/lib/utils/isAddressPartOfTransaction";
 import ellipsis from "@/lib/utils/ellipsis";
 import { getTokenName } from "@/lib/utils/getTokenName";
+import { getChainDetailsURL } from "@/lib/utils/getChainDetailsURL";
 
 const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
   const { data, isLoading, chainId, isFetchedChainId, isFetched } =
@@ -53,7 +53,7 @@ const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
         <Detail
           label="Amount"
           value={`${
-            data?.amount ? formatBN(data?.amount) : "N/A"
+            data?.amount !== undefined ? formatBN(data?.amount) : "N/A"
           } ${getTokenName(chainId)}`}
           isLoading={isLoading}
         />
@@ -92,7 +92,7 @@ const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
           <>
             <Detail
               label="Transaction Fee"
-              value={`${data?.transactionFee} ${isPolygon ? "MATIC" : "ETH"}`}
+              value={`${data?.transactionFee} ${getTokenName(chainId)}`}
               isLoading={isLoading}
             />
             <Detail
@@ -109,7 +109,7 @@ const Details = ({ hash, addressHash }: { hash: Hash; addressHash: Hash }) => {
           <Skeleton />
         ) : (
           <Link
-            href={`${isPolygon ? POLYGON_SCAN : ETHER_SCAN}/${hash}`}
+            href={`${getChainDetailsURL(chainId)}/${hash}`}
             target="_blank"
             passHref={true}
             className="text-sm font-semibold leading-6 transition-colors text-rose-500 hover:text-rose-600">

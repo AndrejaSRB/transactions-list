@@ -34,7 +34,7 @@ const fetchBalance = async (
   const balancePromises = chains.map(async (chain) => {
     const apiKey = getApiKey(chain.name);
     const response = await fetch(
-      `${chain.url}/api?module=account&action=balance&address=${address}&tag=latest&apikey=${apiKey}`
+      `https://api.${chain.url}/api?module=account&action=balance&address=${address}&tag=latest&apikey=${apiKey}`
     );
     const data = await response.json();
     return {
