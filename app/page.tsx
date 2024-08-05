@@ -1,4 +1,5 @@
 import AddressSearch from "./components/AddressSearch";
+import Title from "./components/title";
 
 export default function Home() {
   return (
@@ -13,9 +14,7 @@ export default function Home() {
             Please enter the address, to get the list of transactions.
           </h4>
 
-          <h4 className="text-sm lg:text-lg">
-            Supported chains are Ethereum and Polygon.
-          </h4>
+          <Title />
         </div>
 
         <AddressSearch />
